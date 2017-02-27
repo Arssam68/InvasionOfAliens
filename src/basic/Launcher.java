@@ -1,4 +1,7 @@
 package basic;
 
-public class Launcher {
+import javax.swing.*;
+
+public class Launcher extends JPanel {
+    private final int ROCKET_CAPACITY = 1000;
 }

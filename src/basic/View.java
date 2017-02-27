@@ -15,6 +15,7 @@ public class View extends JPanel {
         setFocusable(true);
         this.controller = controller;
         addKeyListener(controller);
+        this.setBackground(BG_COLOR);
     }
 
     @Override
