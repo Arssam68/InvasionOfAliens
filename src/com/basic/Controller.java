@@ -1,4 +1,4 @@
-package basic;
+package com.basic;
 
 import java.awt.event.KeyAdapter;
 

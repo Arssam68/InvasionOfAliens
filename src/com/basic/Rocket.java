@@ -1,4 +1,4 @@
-package basic;
+package com.basic;
 
 public class Rocket {
 }
