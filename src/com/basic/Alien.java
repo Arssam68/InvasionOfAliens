@@ -1,19 +1,21 @@
 package com.basic;
 
-import com.basic.move.Direction;
-import com.basic.move.Moveable;
+import com.basic.model.CollisionObject;
+import com.basic.model.Direction;
+import com.basic.model.Movable;
 
 import javax.imageio.ImageIO;
-import javax.swing.*;
 import java.awt.*;
 import java.awt.image.BufferedImage;
 import java.io.File;
 import java.io.IOException;
 
-public class Alien extends JPanel implements Moveable {
+public class Alien extends CollisionObject implements Movable{
     private final int BOMB_CAPACITY = 100;
     private int bombQuantity;
     private boolean isActive;
+    private int x;
+    private int y;
     private int width;
     private int height;
     private BufferedImage buffer;
@@ -21,8 +23,10 @@ public class Alien extends JPanel implements Moveable {
     private String filename = "src\\com\\basic\\resources\\ufo-spaceship-flying-saucer.jpg";
     private Direction direction;
 
-    Alien(int width, int height, boolean isActive) {
-        super();
+    public Alien(int x, int y, int width, int height, boolean isActive) {
+        super(x, y, width, height);
+        this.width = x;
+        this.height = y;
         this.width = width;
         this.height = height;
         this.isActive = isActive;
@@ -45,26 +49,29 @@ public class Alien extends JPanel implements Moveable {
         return height;
     }
 
+    @Override
+    public void draw(Graphics graphics) {
+        paintComponent(graphics);
+    }
+
     private void rebuildBuffer(){
         int w = getWidth();
         int h = getHeight();
         buffer = new BufferedImage(w, h, BufferedImage.TYPE_INT_ARGB);
         Graphics2D g2d = buffer.createGraphics();
-        g2d.setPaint(Color.darkGray);
         g2d.setRenderingHint(RenderingHints.KEY_ANTIALIASING, RenderingHints.VALUE_ANTIALIAS_ON);
         g2d.drawImage(image, 0, 0, null);
     }
 
     protected void paintComponent(Graphics g) {
-        super.paintComponent(g);
         if (buffer == null) {
             rebuildBuffer();
         }
-        g.drawImage(buffer, 0, 0, this);
+        g.drawImage(buffer, 0, 0, null);
     }
 
     @Override
-    public void move(Direction direction) {
-
+    public void move(int x, int y) {
+        this.setX(this.getX() + x);
     }
 }

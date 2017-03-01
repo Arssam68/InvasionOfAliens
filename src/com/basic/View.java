@@ -1,5 +1,9 @@
 package com.basic;
 
+import com.basic.controller.EventListener;
+import com.basic.model.GameObject;
+import com.basic.model.GameObjects;
+
 import javax.swing.*;
 import java.awt.*;
 
@@ -14,14 +18,20 @@ public class View extends JPanel {
     View(Controller controller) {
         setFocusable(true);
         this.controller = controller;
-        addKeyListener(controller);
         this.setBackground(BG_COLOR);
-        add(new Alien(75, 20, true));
     }
 
     @Override
     public void paint(Graphics graphics) {
-        super.paint(graphics);
         graphics.setColor(BG_COLOR);
+        GameObjects gameObjects = getGameObjects();
+        if (gameObjects == null) return;
+        for (GameObject gameObject : gameObjects.getAll()) {
+            gameObject.draw(graphics);
+        }
+    }
+
+    public GameObjects getGameObjects() {
+        return controller.getGameObjects();
     }
 }
