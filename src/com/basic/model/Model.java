@@ -1,6 +1,7 @@
 package com.basic.model;
 
 import com.basic.Alien;
+import com.basic.Main;
 import com.basic.controller.EventListener;
 
 import java.util.HashSet;
@@ -12,7 +13,7 @@ public class Model {
 
     {
         Set<Alien> aliens = new HashSet<>();
-        aliens.add(new Alien(10, 10, 70, 20, true));
+        aliens.add(new Alien((int) (Math.random() * (Main.FRAME_WIDTH - Alien.WIDTH - 1) + Alien.WIDTH / 2), Alien.HEIGHT / 2, Alien.WIDTH, Alien.HEIGHT));
         gameObjects = new GameObjects(aliens, null, null, null, null);
     }
 
