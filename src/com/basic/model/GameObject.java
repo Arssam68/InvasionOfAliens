@@ -56,6 +56,4 @@ public abstract class GameObject
     {
         this.height = height;
     }
-
-    public abstract void draw(Graphics graphics);
 }

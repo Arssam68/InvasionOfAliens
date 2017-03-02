@@ -9,7 +9,7 @@ import com.basic.model.Model;
 import javax.swing.*;
 import java.awt.event.ActionEvent;
 
-public class Controller implements EventListener
+public class Controller
 {
     private View view;
     private Model model;
@@ -18,16 +18,10 @@ public class Controller implements EventListener
     {
         view = new View(this);
         model = new Model();
-        model.setEventListener(this);
     }
 
     View getView() {
         return view;
-    }
-
-    @Override
-    public void move(Direction direction, GameObject gameObject) {
-        view.repaint();
     }
 
     public GameObjects getGameObjects() {
@@ -39,7 +33,6 @@ public class Controller implements EventListener
             @Override
             public void actionPerformed(ActionEvent actionEvent) {
                 view.clear();
-                //view.repaint();
                 view.render();
                 view.swapBuffers();
             }
