@@ -1,6 +1,5 @@
 package com.basic;
 
-import com.basic.model.GameObject;
 import com.basic.model.GameObjects;
 
 import javax.swing.*;
@@ -28,41 +27,22 @@ public class View extends JPanel {
         Arrays.fill(bufferData, Main.BG_COLOR.getRGB());
     }
 
-    public void swapBuffers() {
-        getGraphics().drawImage(buffer, 0, 0, this);
-    }
-
     public void render() {
+        clear();
+
         GameObjects gameObjects = getGameObjects();
         if (gameObjects == null) return;
 
-        for (GameObject gameObject : gameObjects.getAll()) {
-            if (gameObject instanceof Alien) {
-                BufferedImage buf = ((Alien) gameObject).getBuffer();
-                buffer.setRGB(
-                        (int) ((Alien) gameObject).getLeftUpper().getX(),
-                        (int) ((Alien) gameObject).getLeftUpper().getY(),
-                        buf.getWidth(),
-                        buf.getHeight(),
-                        ((Alien) gameObject).getBufferData(), 0, buf.getWidth());
-            }
+        for (Alien alien : gameObjects.getAliens()) {
+            BufferedImage buf = alien.getBuffer();
+            buffer.setRGB(
+                    (int) alien.getLeftUpper().getX(),
+                    (int) alien.getLeftUpper().getY(),
+                    alien.getWidth(), alien.getHeight(),
+                    alien.getBufferData(), 0, buf.getWidth());
         }
+        getGraphics().drawImage(buffer, 0, 0, this);
     }
-
-    /*@Override
-    protected void paintComponent(Graphics g) {
-        super.paintComponent(g);
-    }*/
-
-    /*@Override
-    public void paint (Graphics graphics) {
-        render();
-        /*GameObjects gameObjects = getGameObjects();
-        if (gameObjects == null) return;
-        for (GameObject gameObject : gameObjects.getAll()) {
-            gameObject.draw(graphics);
-        }
-    }*/
 
     public GameObjects getGameObjects() {
         return controller.getGameObjects();

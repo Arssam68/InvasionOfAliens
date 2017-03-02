@@ -1,8 +1,5 @@
 package com.basic;
 
-import com.basic.controller.EventListener;
-import com.basic.model.Direction;
-import com.basic.model.GameObject;
 import com.basic.model.GameObjects;
 import com.basic.model.Model;
 
@@ -28,13 +25,11 @@ public class Controller
         return model.getGameObjects();
     }
 
-    void startRenderTimer(int fps) {
-        Timer timer = new Timer(1000 / fps, new AbstractAction() {
+    void startRenderTimer() {
+        Timer timer = new Timer(1000 / Main.FPS, new AbstractAction() {
             @Override
             public void actionPerformed(ActionEvent actionEvent) {
-                view.clear();
                 view.render();
-                view.swapBuffers();
             }
         });
         timer.setRepeats(true);

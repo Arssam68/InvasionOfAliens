@@ -46,14 +46,4 @@ public class GameObjects
         this.rockets = rockets;
         this.launcher = launcher;
     }
-
-    public Set<GameObject> getAll() {
-        Set<GameObject> gameObjects = new HashSet<>();
-        gameObjects.addAll(getAliens());
-        //gameObjects.addAll(getBombs());
-        //gameObjects.addAll(getMen());
-        //gameObjects.addAll(getRockets());
-        //gameObjects.add(launcher);
-        return gameObjects;
-    }
 }
