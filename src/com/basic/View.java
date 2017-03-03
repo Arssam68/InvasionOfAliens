@@ -41,6 +41,38 @@ public class View extends JPanel {
                     alien.getWidth(), alien.getHeight(),
                     alien.getBufferData(), 0, buf.getWidth());
         }
+        for (Man man : gameObjects.getMen()) {
+            BufferedImage buf = man.getBuffer();
+            buffer.setRGB(
+                    (int) man.getLeftUpper().getX(),
+                    (int) man.getLeftUpper().getY(),
+                    man.getWidth(), man.getHeight(),
+                    man.getBufferData(), 0, buf.getWidth());
+        }
+        for (Bomb bomb : gameObjects.getBombs()) {
+            BufferedImage buf = bomb.getBuffer();
+            buffer.setRGB(
+                    (int) bomb.getLeftUpper().getX(),
+                    (int) bomb.getLeftUpper().getY(),
+                    bomb.getWidth(), bomb.getHeight(),
+                    bomb.getBufferData(), 0, buf.getWidth());
+        }
+        for (Rocket rocket : gameObjects.getRockets()) {
+            BufferedImage buf = rocket.getBuffer();
+            buffer.setRGB(
+                    (int) rocket.getLeftUpper().getX(),
+                    (int) rocket.getLeftUpper().getY(),
+                    rocket.getWidth(), rocket.getHeight(),
+                    rocket.getBufferData(), 0, buf.getWidth());
+        }
+        Launcher launcher = gameObjects.getLauncher();
+        BufferedImage buf = launcher.getBuffer();
+        buffer.setRGB(
+                (int) launcher.getLeftUpper().getX(),
+                (int) launcher.getLeftUpper().getY(),
+                launcher.getWidth(), launcher.getHeight(),
+                launcher.getBufferData(), 0, buf.getWidth());
+
         getGraphics().drawImage(buffer, 0, 0, this);
     }
 

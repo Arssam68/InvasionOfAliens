@@ -11,6 +11,9 @@ public class Main {
 
     public static final int NUMBER_OF_ALIANS = 5;
     public static final int MAX_NUMBER_OF_ALIANS = 20;
+    public static final int NUMBER_OF_MEN = 5;
+    public static final int MAX_NUMBER_OF_MEN = 20;
+    public static final int MAX_NUMBER_OF_ROCKETS = 1000;
 
     public static void main(String[] args) {
         Controller controller = new Controller();

@@ -16,9 +16,9 @@ import static com.basic.model.Direction.RIGHT;
 public class Alien implements Runnable, Movable{
     private final int BOMB_CAPACITY = 100;
     public static final int WIDTH = 70;
-    public  static final int HEIGHT = 20;
-    public  static final int ALTITUDE = HEIGHT / 2;
-    public  static final String IMAGE_FILENAME = "src\\com\\basic\\resources\\ufo-spaceship-flying-saucer.jpg";
+    private static final int HEIGHT = 20;
+    private static final int ALTITUDE = HEIGHT / 2;
+    private static final String IMAGE_FILENAME = "src\\com\\basic\\resources\\ufo-spaceship-flying-saucer.jpg";
 
     private int x;
     private int y;
@@ -70,7 +70,7 @@ public class Alien implements Runnable, Movable{
         int speedChangePeriod = 100;
         while (true) {
             if (speedChangePeriod-- == 0) {
-                speed = (int) (Math.random() * 5);
+                speed = (int) (Math.random() * 4 + 1);
                 speedChangePeriod = 100;
             }
             move();
@@ -94,8 +94,8 @@ public class Alien implements Runnable, Movable{
                 break;
             case RIGHT:
                 x += speed;
-                if (x > Main.FRAME_WIDTH - Alien.WIDTH / 2 - 1) {
-                    x = Main.FRAME_WIDTH - Alien.WIDTH / 2 - 1;
+                if (x > Main.FRAME_WIDTH - width / 2 - 1) {
+                    x = Main.FRAME_WIDTH - width / 2 - 1;
                     direction = LEFT;
                 }
         }
