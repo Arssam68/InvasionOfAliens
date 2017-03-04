@@ -1,9 +1,12 @@
 package com.basic;
 
+import com.basic.model.Direction;
 import com.basic.model.GameObjects;
 
 import javax.swing.*;
 import java.awt.*;
+import java.awt.event.KeyAdapter;
+import java.awt.event.KeyEvent;
 import java.awt.image.BufferedImage;
 import java.awt.image.DataBufferInt;
 import java.util.Arrays;
@@ -13,18 +16,28 @@ public class View extends JPanel {
     private int[] bufferData;
     private Graphics bufferGrafics;
 
+    private EventListener eventListener;
+
     private Controller controller;
 
     View(Controller controller) {
-        setFocusable(true);
         this.controller = controller;
-        buffer = new BufferedImage(Main.FRAME_WIDTH, Main.FRAME_HEIGHT, BufferedImage.TYPE_INT_RGB);
+        KeyHandler keyHandler = new KeyHandler();
+        addKeyListener(keyHandler);
+        setFocusable(true);
+        buffer = new BufferedImage(Game.FRAME_WIDTH, Game.FRAME_HEIGHT, BufferedImage.TYPE_INT_RGB);
         bufferData = ((DataBufferInt) buffer.getRaster().getDataBuffer()).getData();
         bufferGrafics = buffer.getGraphics();
+        ((Graphics2D) buffer.getGraphics()).setRenderingHint(RenderingHints.KEY_ANTIALIASING, RenderingHints.VALUE_ANTIALIAS_ON);
+    }
+
+    public void setEventListener(EventListener eventListener)
+    {
+        this.eventListener = eventListener;
     }
 
     public void clear() {
-        Arrays.fill(bufferData, Main.BG_COLOR.getRGB());
+        Arrays.fill(bufferData, Game.BG_COLOR.getRGB());
     }
 
     public void render() {
@@ -78,5 +91,26 @@ public class View extends JPanel {
 
     public GameObjects getGameObjects() {
         return controller.getGameObjects();
+    }
+
+    public class KeyHandler extends KeyAdapter {
+        @Override
+        public void keyPressed(KeyEvent e)
+        {
+            switch (e.getKeyCode()) {
+                case KeyEvent.VK_LEFT:  {
+                    eventListener.move(Direction.LEFT);
+                    break;
+                }
+                case KeyEvent.VK_RIGHT:  {
+                    eventListener.move(Direction.RIGHT);
+                    break;
+                }
+                case KeyEvent.VK_UP:  {
+                    eventListener.launch();
+                    break;
+                }
+            }
+        }
     }
 }

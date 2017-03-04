@@ -1,7 +1,6 @@
 package com.basic;
 
 import com.basic.model.Direction;
-import com.basic.model.Movable;
 
 import javax.imageio.ImageIO;
 import java.awt.*;
@@ -13,11 +12,11 @@ import java.io.IOException;
 import static com.basic.model.Direction.LEFT;
 import static com.basic.model.Direction.RIGHT;
 
-public class Man implements Runnable, Movable{
+public class Man implements Runnable{
     public static final int WIDTH = 20;
     public static final int HEIGHT = 40;
-    private static final String IMAGE_L_FILENAME = "src\\com\\basic\\resources\\young-man-silhouette-backpacker-walking_L.jpg";
-    private static final String IMAGE_R_FILENAME = "src\\com\\basic\\resources\\young-man-silhouette-backpacker-walking_R.jpg";
+    private static final String IMAGE_L_FILENAME = "src\\com\\basic\\resources\\WalkingManL.jpg";
+    private static final String IMAGE_R_FILENAME = "src\\com\\basic\\resources\\WalkingManR.jpg";
 
     private int x;
     private int y;
@@ -37,7 +36,7 @@ public class Man implements Runnable, Movable{
         width = WIDTH;
         height = HEIGHT;
         this.x = x;
-        y = Main.FRAME_HEIGHT - height;
+        y = Game.FRAME_HEIGHT - height - 10;
         imageLFilename = IMAGE_L_FILENAME;
         imageRFilename = IMAGE_R_FILENAME;
         leftUpper = new Point(x - width / 2, y - height / 2);
@@ -84,7 +83,7 @@ public class Man implements Runnable, Movable{
         int speedChangePeriod = 100;
         while (true) {
             if (speedChangePeriod-- == 0) {
-                speed = (int) (Math.random() * 4 + 1);
+                speed = (int) (Math.random() * 3 + 1);
                 speedChangePeriod = 100;
             }
             move();
@@ -96,7 +95,6 @@ public class Man implements Runnable, Movable{
         }
     }
 
-    @Override
     public synchronized void move() {
         switch (direction) {
             case LEFT:
@@ -108,8 +106,8 @@ public class Man implements Runnable, Movable{
                 break;
             case RIGHT:
                 x += speed;
-                if (x > Main.FRAME_WIDTH - width / 2 - 1) {
-                    x = Main.FRAME_WIDTH - width / 2 - 1;
+                if (x > Game.FRAME_WIDTH - width / 2 - 1) {
+                    x = Game.FRAME_WIDTH - width / 2 - 1;
                     direction = LEFT;
                 }
         }

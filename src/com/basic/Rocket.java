@@ -12,22 +12,32 @@ import java.io.IOException;
 
 import static com.basic.model.Direction.UP;
 
-public class Rocket implements Runnable, Movable {
+public class Rocket implements Runnable {
     public static final int WIDTH = 10;
-    public static final int HEIGHT = 40;
-    private static final String IMAGE_FILENAME = "src\\com\\basic\\resources\\rocket.jpg";
+    public static final int HEIGHT = 30;
+    private static final String IMAGE_FILENAME = "src\\com\\basic\\resources\\Rocket.jpg";
     public static final int SPEED = 5;
+    private static int currentNumber = 0;
 
     private int x;
     private int y;
     private int width;
     private int height;
+    private boolean isActive;
     private Point leftUpper;
     private Direction direction;
     private int speed;
     private String imageFilename;
     private BufferedImage buffer;
     private int[] bufferData;
+
+    public boolean isActive() {
+        return isActive;
+    }
+
+    public static int getCurrentNumber() {
+        return currentNumber;
+    }
 
     public Rocket(int x, int y) {
         this.x = x;
@@ -38,6 +48,8 @@ public class Rocket implements Runnable, Movable {
         leftUpper = new Point(x - width / 2, y - height / 2);
         direction = UP;
         speed = SPEED;
+        isActive = true;
+        currentNumber++;
 
         BufferedImage bi = null;
         try {
@@ -54,10 +66,10 @@ public class Rocket implements Runnable, Movable {
         }
         bufferData = ((DataBufferInt) buffer.getRaster().getDataBuffer()).getData();
 
-        startRocetMove();
+        startRocketMove();
     }
 
-    public void startRocetMove() {
+    public void startRocketMove() {
         Thread t = new Thread(this);
         t.start();
     }
@@ -74,13 +86,13 @@ public class Rocket implements Runnable, Movable {
         }
     }
 
-    @Override
     public synchronized void move() {
         switch (direction) {
             case UP:
                 y -= speed;
                 if (y < height / 2) {
                     y = height / 2;
+                    isActive = false;
                     Thread.currentThread().interrupt();
                 }
         }

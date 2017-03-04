@@ -9,16 +9,17 @@ import java.awt.image.BufferedImage;
 import java.awt.image.DataBufferInt;
 import java.io.File;
 import java.io.IOException;
+import java.util.EventListener;
 
 import static com.basic.model.Direction.LEFT;
 import static com.basic.model.Direction.RIGHT;
 
-public class Launcher implements Runnable, Movable {
+public class Launcher implements Movable, EventListener {
     private final int MAX_ROCKET_CAPACITY = 1000;
     public static final int WIDTH = 80;
     private static final int HEIGHT = 10;
-    private static final String IMAGE_FILENAME = "src\\com\\basic\\resources\\launcher.jpg";
-    private static final int SPEED = 4;
+    private static final String IMAGE_FILENAME = "src\\com\\basic\\resources\\Launcher.jpg";
+    private static final int SPEED = 6;
 
     private int x;
     private int y;
@@ -36,7 +37,7 @@ public class Launcher implements Runnable, Movable {
         width = WIDTH;
         height = HEIGHT;
         this.x = x;
-        y = Main.FRAME_HEIGHT - Man.HEIGHT - height - 20;
+        y = Game.FRAME_HEIGHT - Man.HEIGHT - height - 30;
         imageFilename = IMAGE_FILENAME;
         leftUpper = new Point(x - width / 2, y - height / 2);
         direction = (int) (Math.random() * 10) < 5 ? LEFT : RIGHT;
@@ -57,28 +58,10 @@ public class Launcher implements Runnable, Movable {
             }
         }
         bufferData = ((DataBufferInt) buffer.getRaster().getDataBuffer()).getData();
-
-        startLauncherMove();
-    }
-
-    public void startLauncherMove() {
-        new Thread(this).start();
     }
 
     @Override
-    public void run() {
-        while (true) {
-            move();
-            try {
-                Thread.sleep(25);
-            } catch (InterruptedException e) {
-                break;
-            }
-        }
-    }
-
-    @Override
-    public synchronized void move() {
+    public synchronized void move(Direction direction) {
         switch (direction) {
             case LEFT:
                 x -= speed;
@@ -89,8 +72,8 @@ public class Launcher implements Runnable, Movable {
                 break;
             case RIGHT:
                 x += speed;
-                if (x > Main.FRAME_WIDTH - width / 2 - 1) {
-                    x = Main.FRAME_WIDTH - width / 2 - 1;
+                if (x > Game.FRAME_WIDTH - width / 2 - 1) {
+                    x = Game.FRAME_WIDTH - width / 2 - 1;
                     direction = LEFT;
                 }
         }

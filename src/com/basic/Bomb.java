@@ -1,7 +1,6 @@
 package com.basic;
 
 import com.basic.model.Direction;
-import com.basic.model.Movable;
 
 import javax.imageio.ImageIO;
 import java.awt.*;
@@ -12,16 +11,17 @@ import java.io.IOException;
 
 import static com.basic.model.Direction.DOWN;
 
-public class Bomb implements Runnable, Movable {
+public class Bomb implements Runnable {
     public static final int WIDTH = 8;
     private static final int HEIGHT = 20;
-    private static final String IMAGE_FILENAME = "src\\com\\basic\\resources\\bomb.jpg";
+    private static final String IMAGE_FILENAME = "src\\com\\basic\\resources\\Aviabomb.jpg";
     public static final int SPEED = 3;
 
     private int x;
     private int y;
     private int width;
     private int height;
+    private boolean isActive;
     private Point leftUpper;
     private Direction direction;
     private int speed;
@@ -38,6 +38,7 @@ public class Bomb implements Runnable, Movable {
         leftUpper = new Point(x - width / 2, y - height / 2);
         direction = DOWN;
         speed = SPEED;
+        isActive = true;
 
         BufferedImage bi = null;
         try {
@@ -57,6 +58,10 @@ public class Bomb implements Runnable, Movable {
         startBombMove();
     }
 
+    public boolean isActive() {
+        return isActive;
+    }
+
     public void startBombMove() {
         Thread t = new Thread(this);
         t.start();
@@ -74,13 +79,12 @@ public class Bomb implements Runnable, Movable {
         }
     }
 
-    @Override
     public synchronized void move() {
         switch (direction) {
             case DOWN:
                 y += speed;
-                if (y > Main.FRAME_HEIGHT - height / 2 - 1) {
-                    y = Main.FRAME_HEIGHT - height / 2 - 1;
+                if (y > Game.FRAME_HEIGHT - height / 2 - 1) {
+                    y = Game.FRAME_HEIGHT - height / 2 - 1;
                     Thread.currentThread().interrupt();
                 }
         }

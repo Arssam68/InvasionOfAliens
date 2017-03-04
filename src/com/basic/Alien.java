@@ -1,7 +1,6 @@
 package com.basic;
 
 import com.basic.model.Direction;
-import com.basic.model.Movable;
 
 import javax.imageio.ImageIO;
 import java.awt.*;
@@ -13,7 +12,7 @@ import java.io.IOException;
 import static com.basic.model.Direction.LEFT;
 import static com.basic.model.Direction.RIGHT;
 
-public class Alien implements Runnable, Movable{
+public class Alien implements Runnable{
     private final int BOMB_CAPACITY = 100;
     public static final int WIDTH = 70;
     private static final int HEIGHT = 20;
@@ -23,6 +22,11 @@ public class Alien implements Runnable, Movable{
     private int x;
     private int y;
     private int width;
+
+    public int getBombQuantity() {
+        return bombQuantity;
+    }
+
     private int height;
     private Point leftUpper;
     private Direction direction;
@@ -33,10 +37,10 @@ public class Alien implements Runnable, Movable{
     private int[] bufferData;
 
     public Alien(int x, int speed, int alt) {
-        this.x = x;
-        y = ALTITUDE * 2 * alt;
         width = WIDTH;
         height = HEIGHT;
+        this.x = x;
+        y = ALTITUDE * 2 * alt - height / 2;
         imageFilename = IMAGE_FILENAME;
         leftUpper = new Point(x - width / 2, y - height / 2);
         direction = (int) (Math.random() * 10) < 5 ? LEFT : RIGHT;
@@ -82,7 +86,6 @@ public class Alien implements Runnable, Movable{
         }
     }
 
-    @Override
     public synchronized void move() {
         switch (direction) {
             case LEFT:
@@ -94,8 +97,8 @@ public class Alien implements Runnable, Movable{
                 break;
             case RIGHT:
                 x += speed;
-                if (x > Main.FRAME_WIDTH - width / 2 - 1) {
-                    x = Main.FRAME_WIDTH - width / 2 - 1;
+                if (x > Game.FRAME_WIDTH - width / 2 - 1) {
+                    x = Game.FRAME_WIDTH - width / 2 - 1;
                     direction = LEFT;
                 }
         }
