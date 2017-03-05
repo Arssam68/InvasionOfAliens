@@ -83,8 +83,8 @@ public class Bomb implements Runnable {
         switch (direction) {
             case DOWN:
                 y += speed;
-                if (y > Game.FRAME_HEIGHT - height / 2 - 1) {
-                    y = Game.FRAME_HEIGHT - height / 2 - 1;
+                if (y > Game.HEIGHT - height / 2 - 1) {
+                    y = Game.HEIGHT - height / 2 - 1;
                     Thread.currentThread().interrupt();
                 }
         }

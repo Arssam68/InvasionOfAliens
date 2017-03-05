@@ -37,7 +37,7 @@ public class Launcher implements Movable, EventListener {
         width = WIDTH;
         height = HEIGHT;
         this.x = x;
-        y = Game.FRAME_HEIGHT - Man.HEIGHT - height - 30;
+        y = Game.HEIGHT - Man.HEIGHT - height;
         imageFilename = IMAGE_FILENAME;
         leftUpper = new Point(x - width / 2, y - height / 2);
         direction = (int) (Math.random() * 10) < 5 ? LEFT : RIGHT;
@@ -72,8 +72,8 @@ public class Launcher implements Movable, EventListener {
                 break;
             case RIGHT:
                 x += speed;
-                if (x > Game.FRAME_WIDTH - width / 2 - 1) {
-                    x = Game.FRAME_WIDTH - width / 2 - 1;
+                if (x > Game.WIDTH - width / 2 - 1) {
+                    x = Game.WIDTH - width / 2 - 1;
                     direction = LEFT;
                 }
         }

@@ -36,7 +36,7 @@ public class Man implements Runnable{
         width = WIDTH;
         height = HEIGHT;
         this.x = x;
-        y = Game.FRAME_HEIGHT - height - 10;
+        y = Game.HEIGHT - height / 2;
         imageLFilename = IMAGE_L_FILENAME;
         imageRFilename = IMAGE_R_FILENAME;
         leftUpper = new Point(x - width / 2, y - height / 2);
@@ -106,8 +106,8 @@ public class Man implements Runnable{
                 break;
             case RIGHT:
                 x += speed;
-                if (x > Game.FRAME_WIDTH - width / 2 - 1) {
-                    x = Game.FRAME_WIDTH - width / 2 - 1;
+                if (x > Game.WIDTH - width / 2 - 1) {
+                    x = Game.WIDTH - width / 2 - 1;
                     direction = LEFT;
                 }
         }

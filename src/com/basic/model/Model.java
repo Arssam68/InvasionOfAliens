@@ -18,14 +18,14 @@ public class Model {
     public Model() {
 
         for (int i = 1; i <= Game.NUMBER_OF_ALIANS; i++) {
-            aliens.add(new Alien((int) (Math.random() * (Game.FRAME_WIDTH - Alien.WIDTH - 1) + Alien.WIDTH / 2), (int) (Math.random() * 2 + 1), i));
+            aliens.add(new Alien((int) (Math.random() * (Game.WIDTH - Alien.WIDTH - 1) + Alien.WIDTH / 2), (int) (Math.random() * 2 + 1), i));
         }
 
         for (int i = 1; i <= Game.NUMBER_OF_MEN; i++) {
-            men.add(new Man((int) (Math.random() * (Game.FRAME_WIDTH - Man.WIDTH - 1) + Man.WIDTH / 2), (int) (Math.random() * 2 + 1)));
+            men.add(new Man((int) (Math.random() * (Game.WIDTH - Man.WIDTH - 1) + Man.WIDTH / 2), (int) (Math.random() * 2 + 1)));
         }
 
-        launcher = new Launcher((int) (Math.random() * (Game.FRAME_WIDTH - Launcher.WIDTH - 1) + Launcher.WIDTH / 2));
+        launcher = new Launcher((int) (Math.random() * (Game.WIDTH - Launcher.WIDTH - 1) + Launcher.WIDTH / 2));
 
         gameObjects = new GameObjects(aliens, bombs, men, rockets, launcher);
     }

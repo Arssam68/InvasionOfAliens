@@ -97,8 +97,8 @@ public class Alien implements Runnable{
                 break;
             case RIGHT:
                 x += speed;
-                if (x > Game.FRAME_WIDTH - width / 2 - 1) {
-                    x = Game.FRAME_WIDTH - width / 2 - 1;
+                if (x > Game.WIDTH - width / 2 - 1) {
+                    x = Game.WIDTH - width / 2 - 1;
                     direction = LEFT;
                 }
         }

@@ -7,14 +7,24 @@ import javax.swing.*;
 import java.awt.*;
 import java.awt.event.KeyAdapter;
 import java.awt.event.KeyEvent;
+import java.awt.image.BufferStrategy;
 import java.awt.image.BufferedImage;
 import java.awt.image.DataBufferInt;
 import java.util.Arrays;
 
 public class View extends JPanel {
+    public static final int BG_COLOR = Game.CLEAR_COLOR;
+
+    private boolean isCreated = false;
+    private JFrame window;
+    private Canvas content;
+
     private BufferedImage buffer;
     private int[] bufferData;
     private Graphics bufferGrafics;
+    private int clearColor;
+
+    private BufferStrategy bufferStrategy;
 
     private EventListener eventListener;
 
@@ -25,19 +35,55 @@ public class View extends JPanel {
         KeyHandler keyHandler = new KeyHandler();
         addKeyListener(keyHandler);
         setFocusable(true);
-        buffer = new BufferedImage(Game.FRAME_WIDTH, Game.FRAME_HEIGHT, BufferedImage.TYPE_INT_RGB);
+    }
+
+    public void create(int width, int height, String title, int _clearColor, int numBuffers) {
+        if (isCreated) return;
+
+        window = new JFrame(title);
+        window.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+        content = new Canvas();
+
+        Dimension size = new Dimension(width, height);
+        content.setPreferredSize(size);
+
+        window.setResizable(false);
+        window.getContentPane().add(content);
+        window.pack();
+        window.setLocationRelativeTo(null);
+        window.setVisible(true);
+
+        buffer = new BufferedImage(width, height, BufferedImage.TYPE_INT_RGB);
         bufferData = ((DataBufferInt) buffer.getRaster().getDataBuffer()).getData();
         bufferGrafics = buffer.getGraphics();
         ((Graphics2D) buffer.getGraphics()).setRenderingHint(RenderingHints.KEY_ANTIALIASING, RenderingHints.VALUE_ANTIALIAS_ON);
-    }
+        clearColor = _clearColor;
 
-    public void setEventListener(EventListener eventListener)
-    {
-        this.eventListener = eventListener;
+        content.createBufferStrategy(numBuffers);
+        bufferStrategy = content.getBufferStrategy();
+        isCreated = true;
     }
 
     public void clear() {
-        Arrays.fill(bufferData, Game.BG_COLOR.getRGB());
+        Arrays.fill(bufferData, BG_COLOR);
+    }
+
+    public void swapBuffers() {
+        Graphics g = bufferStrategy.getDrawGraphics();
+        g.drawImage(buffer, 0, 0, null);
+        bufferStrategy.show();
+    }
+
+    public Graphics2D getGraphics() {
+        return (Graphics2D) bufferGrafics;
+    }
+
+    public void destroy() {
+        if (isCreated) window.dispose();
+    }
+
+    public void setTitle(String title) {
+        window.setTitle(title);
     }
 
     public void render() {
@@ -86,7 +132,7 @@ public class View extends JPanel {
                 launcher.getWidth(), launcher.getHeight(),
                 launcher.getBufferData(), 0, buf.getWidth());
 
-        getGraphics().drawImage(buffer, 0, 0, this);
+        swapBuffers();
     }
 
     public GameObjects getGameObjects() {
@@ -112,5 +158,10 @@ public class View extends JPanel {
                 }
             }
         }
+    }
+
+    public void setEventListener(EventListener eventListener)
+    {
+        this.eventListener = eventListener;
     }
 }
