@@ -1,6 +1,7 @@
 package com.basic.model;
 
 import com.basic.*;
+import com.basic.controller.EventListener;
 
 import java.util.HashSet;
 import java.util.Iterator;

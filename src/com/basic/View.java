@@ -1,5 +1,8 @@
 package com.basic;
 
+import com.basic.controller.Controller;
+import com.basic.controller.EventListener;
+import com.basic.controller.Input;
 import com.basic.model.Direction;
 import com.basic.model.GameObjects;
 
@@ -26,15 +29,10 @@ public class View extends JPanel {
 
     private BufferStrategy bufferStrategy;
 
-    private EventListener eventListener;
-
     private Controller controller;
 
-    View(Controller controller) {
+    public View(Controller controller) {
         this.controller = controller;
-        KeyHandler keyHandler = new KeyHandler();
-        addKeyListener(keyHandler);
-        setFocusable(true);
     }
 
     public void create(int width, int height, String title, int _clearColor, int numBuffers) {
@@ -139,29 +137,7 @@ public class View extends JPanel {
         return controller.getGameObjects();
     }
 
-    public class KeyHandler extends KeyAdapter {
-        @Override
-        public void keyPressed(KeyEvent e)
-        {
-            switch (e.getKeyCode()) {
-                case KeyEvent.VK_LEFT:  {
-                    eventListener.move(Direction.LEFT);
-                    break;
-                }
-                case KeyEvent.VK_RIGHT:  {
-                    eventListener.move(Direction.RIGHT);
-                    break;
-                }
-                case KeyEvent.VK_UP:  {
-                    eventListener.launch();
-                    break;
-                }
-            }
-        }
-    }
-
-    public void setEventListener(EventListener eventListener)
-    {
-        this.eventListener = eventListener;
+    public void addInputListener(Input inputListener) {
+        window.add(inputListener);
     }
 }

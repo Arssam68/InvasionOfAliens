@@ -1,5 +1,7 @@
-package com.basic;
+package com.basic.controller;
 
+import com.basic.Alien;
+import com.basic.View;
 import com.basic.model.Direction;
 import com.basic.model.GameObjects;
 import com.basic.model.Model;
@@ -8,13 +10,15 @@ public class Controller implements EventListener
 {
     private View view;
     private Model model;
+    private Input input;
 
     public Controller()
     {
         view = new View(this);
         model = new Model();
         model.setEventListener(this);
-        view.setEventListener(this);
+        input = new Input();
+        view.addInputListener(input);
     }
 
     @Override
@@ -33,15 +37,19 @@ public class Controller implements EventListener
         model.bombFlush(alien);
     }
 
-    View getView() {
+    public View getView() {
         return view;
+    }
+
+    public Input getInput() {
+        return input;
     }
 
     public GameObjects getGameObjects() {
         return model.getGameObjects();
     }
 
-    private void removeInactiveObjects() {
+    public void removeInactiveObjects() {
         model.removeInactiveObjects();
     }
 }

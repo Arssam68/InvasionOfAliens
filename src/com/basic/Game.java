@@ -1,9 +1,11 @@
 package com.basic;
 
+import com.basic.controller.Controller;
+import com.basic.controller.Input;
 import com.basic.utils.Time;
 
-import javax.swing.*;
 import java.awt.*;
+import java.awt.event.KeyEvent;
 
 public class Game implements Runnable {
     public static final int WIDTH = 1024;
@@ -14,6 +16,7 @@ public class Game implements Runnable {
 
     private Controller controller;
     private View view;
+    private Input input;
 
     public static final float UPDATE_RATE = 60.0f;
     public static final float UPDATE_INTERVAL = Time.SECOND / UPDATE_RATE;
@@ -32,8 +35,8 @@ public class Game implements Runnable {
         isRunning = false;
         controller = new Controller();
         view = controller.getView();
+        input = controller.getInput();
         view.create(WIDTH, HEIGHT, TITLE, CLEAR_COLOR, NUM_BUFFERS);
-
     }
 
     public synchronized void start() {
@@ -56,10 +59,13 @@ public class Game implements Runnable {
     }
 
     private void update() {
+        if (input.getKey(KeyEvent.VK_UP)) {
 
+        }
     }
 
     private void render() {
+        controller.removeInactiveObjects();
         view.render();
     }
 
