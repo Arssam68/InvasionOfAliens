@@ -20,29 +20,34 @@ public class Launcher implements Movable, EventListener {
     private static final int HEIGHT = 10;
     private static final String IMAGE_FILENAME = "src\\com\\basic\\resources\\Launcher.jpg";
     private static final int SPEED = 6;
+    public static int LAUNCH_INTERVAL = (int) Game.UPDATE_RATE;
 
     private int x;
     private int y;
     private int width;
     private int height;
     private Point leftUpper;
+    private boolean isReady;
     private Direction direction;
     private int speed;
     private int rocketQuantity;
     private String imageFilename;
     private BufferedImage buffer;
     private int[] bufferData;
+    private int launchInterval;
 
     public Launcher(int x) {
         width = WIDTH;
         height = HEIGHT;
         this.x = x;
         y = Game.HEIGHT - Man.HEIGHT - height;
+        isReady = true;
         imageFilename = IMAGE_FILENAME;
         leftUpper = new Point(x - width / 2, y - height / 2);
         direction = (int) (Math.random() * 10) < 5 ? LEFT : RIGHT;
         speed = SPEED;
         rocketQuantity = MAX_ROCKET_CAPACITY;
+        launchInterval = LAUNCH_INTERVAL;
 
         BufferedImage bi = null;
         try {
@@ -106,5 +111,21 @@ public class Launcher implements Movable, EventListener {
 
     public Point getLeftUpper() {
         return leftUpper;
+    }
+
+    public boolean isReady() {
+        return isReady;
+    }
+
+    public void setReady(boolean ready) {
+        isReady = ready;
+    }
+
+    public int getLaunchInterval() {
+        return launchInterval;
+    }
+
+    public void setLaunchInterval(int launchInterval) {
+        this.launchInterval = launchInterval;
     }
 }

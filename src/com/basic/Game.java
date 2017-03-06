@@ -2,6 +2,7 @@ package com.basic;
 
 import com.basic.controller.Controller;
 import com.basic.controller.Input;
+import com.basic.model.Direction;
 import com.basic.utils.Time;
 
 import java.awt.*;
@@ -36,7 +37,6 @@ public class Game implements Runnable {
         controller = new Controller();
         view = controller.getView();
         input = controller.getInput();
-        view.create(WIDTH, HEIGHT, TITLE, CLEAR_COLOR, NUM_BUFFERS);
     }
 
     public synchronized void start() {
@@ -60,7 +60,13 @@ public class Game implements Runnable {
 
     private void update() {
         if (input.getKey(KeyEvent.VK_UP)) {
-
+            controller.launch();
+        } else controller.checkLauncherReady();
+        if (input.getKey(KeyEvent.VK_LEFT)) {
+            controller.move(Direction.LEFT);
+        }
+        if (input.getKey(KeyEvent.VK_RIGHT)) {
+            controller.move(Direction.RIGHT);
         }
     }
 

@@ -8,11 +8,13 @@ import java.awt.image.BufferedImage;
 import java.awt.image.DataBufferInt;
 import java.io.File;
 import java.io.IOException;
+import java.util.Observable;
 
 import static com.basic.model.Direction.LEFT;
 import static com.basic.model.Direction.RIGHT;
 
-public class Alien implements Runnable{
+public class Alien extends Observable implements Runnable{
+    private final int UPDATE_TIME = 25;
     private final int BOMB_CAPACITY = 100;
     public static final int WIDTH = 70;
     private static final int HEIGHT = 20;
@@ -22,11 +24,6 @@ public class Alien implements Runnable{
     private int x;
     private int y;
     private int width;
-
-    public int getBombQuantity() {
-        return bombQuantity;
-    }
-
     private int height;
     private Point leftUpper;
     private Direction direction;
@@ -71,15 +68,22 @@ public class Alien implements Runnable{
 
     @Override
     public void run() {
-        int speedChangePeriod = 100;
+        int speedChangePeriod = UPDATE_TIME * 4;
+        int bombFlushPeriod = (int) (Math.random() * UPDATE_TIME * 3 + 40);
         while (true) {
             if (speedChangePeriod-- == 0) {
                 speed = (int) (Math.random() * 4 + 1);
                 speedChangePeriod = 100;
             }
+            if (bombFlushPeriod-- == 0 && bombQuantity != 0) {
+                setChanged();
+                notifyObservers();
+                bombQuantity--;
+                bombFlushPeriod = (int) (Math.random() * UPDATE_TIME * 6 + 40);
+            }
             move();
             try {
-                Thread.sleep(25);
+                Thread.sleep(UPDATE_TIME);
             } catch (InterruptedException e) {
                 break;
             }

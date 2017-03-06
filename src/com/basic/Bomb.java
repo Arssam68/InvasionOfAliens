@@ -13,7 +13,7 @@ import static com.basic.model.Direction.DOWN;
 
 public class Bomb implements Runnable {
     public static final int WIDTH = 8;
-    private static final int HEIGHT = 20;
+    public static final int HEIGHT = 20;
     private static final String IMAGE_FILENAME = "src\\com\\basic\\resources\\Aviabomb.jpg";
     public static final int SPEED = 3;
 
@@ -83,8 +83,9 @@ public class Bomb implements Runnable {
         switch (direction) {
             case DOWN:
                 y += speed;
-                if (y > Game.HEIGHT - height / 2 - 1) {
-                    y = Game.HEIGHT - height / 2 - 1;
+                if (y > Game.HEIGHT - height / 2) {
+                    y = Game.HEIGHT - height / 2;
+                    isActive = false;
                     Thread.currentThread().interrupt();
                 }
         }
