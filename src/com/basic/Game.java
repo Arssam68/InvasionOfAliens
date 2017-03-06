@@ -42,7 +42,7 @@ public class Game implements Runnable {
     public synchronized void start() {
         if (!isRunning) {
             isRunning = true;
-            gameThread = new Thread(this);
+            gameThread = new Thread(this, "Game thread");
             gameThread.start();
         }
     }

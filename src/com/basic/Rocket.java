@@ -13,6 +13,7 @@ import java.io.IOException;
 import static com.basic.model.Direction.UP;
 
 public class Rocket implements Runnable {
+    private final int UPDATE_TIME = 25;
     public static final int WIDTH = 10;
     public static final int HEIGHT = 30;
     private static final String IMAGE_FILENAME = "src\\com\\basic\\resources\\Rocket.jpg";
@@ -70,7 +71,7 @@ public class Rocket implements Runnable {
     }
 
     public void startRocketMove() {
-        Thread t = new Thread(this);
+        Thread t = new Thread(this, " Rocket: " + String.valueOf(currentNumber));
         t.start();
     }
 
@@ -79,7 +80,7 @@ public class Rocket implements Runnable {
         while (true) {
             move();
             try {
-                Thread.sleep(25);
+                Thread.sleep(UPDATE_TIME);
             } catch (InterruptedException e) {
                 break;
             }

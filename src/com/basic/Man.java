@@ -13,10 +13,12 @@ import static com.basic.model.Direction.LEFT;
 import static com.basic.model.Direction.RIGHT;
 
 public class Man implements Runnable{
+    private final int UPDATE_TIME = 25;
     public static final int WIDTH = 20;
     public static final int HEIGHT = 40;
     private static final String IMAGE_L_FILENAME = "src\\com\\basic\\resources\\WalkingManL.jpg";
     private static final String IMAGE_R_FILENAME = "src\\com\\basic\\resources\\WalkingManR.jpg";
+    private static int currentNumber = 0;
 
     private int x;
     private int y;
@@ -42,6 +44,7 @@ public class Man implements Runnable{
         leftUpper = new Point(x - width / 2, y - height / 2);
         direction = (int) (Math.random() * 10) < 5 ? LEFT : RIGHT;
         this.speed = speed;
+        currentNumber++;
 
         BufferedImage bi = null;
         try {
@@ -75,7 +78,7 @@ public class Man implements Runnable{
     }
 
     public void startManMove() {
-        new Thread(this).start();
+        new Thread(this, " Man: " + String.valueOf(currentNumber)).start();
     }
 
     @Override
@@ -88,7 +91,7 @@ public class Man implements Runnable{
             }
             move();
             try {
-                Thread.sleep(25);
+                Thread.sleep(UPDATE_TIME);
             } catch (InterruptedException e) {
                 break;
             }

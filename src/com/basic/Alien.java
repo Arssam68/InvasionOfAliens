@@ -20,6 +20,7 @@ public class Alien extends Observable implements Runnable{
     private static final int HEIGHT = 20;
     private static final int ALTITUDE = HEIGHT / 2;
     private static final String IMAGE_FILENAME = "src\\com\\basic\\resources\\ufo-spaceship-flying-saucer.jpg";
+    private static int currentNumber = 0;
 
     private int x;
     private int y;
@@ -43,6 +44,7 @@ public class Alien extends Observable implements Runnable{
         direction = (int) (Math.random() * 10) < 5 ? LEFT : RIGHT;
         this.speed = speed;
         bombQuantity = BOMB_CAPACITY;
+        currentNumber++;
 
         BufferedImage bi = null;
         try {
@@ -63,7 +65,7 @@ public class Alien extends Observable implements Runnable{
     }
 
     public void startAlienMove() {
-        new Thread(this).start();
+        new Thread(this, " Alien: " + String.valueOf(currentNumber)).start();
     }
 
     @Override
@@ -79,7 +81,8 @@ public class Alien extends Observable implements Runnable{
                 setChanged();
                 notifyObservers();
                 bombQuantity--;
-                bombFlushPeriod = (int) (Math.random() * UPDATE_TIME * 6 + 40);
+                //bombFlushPeriod = (int) (Math.random() * UPDATE_TIME * 6 + 40);
+                bombFlushPeriod = 10;
             }
             move();
             try {

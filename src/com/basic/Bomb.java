@@ -12,10 +12,12 @@ import java.io.IOException;
 import static com.basic.model.Direction.DOWN;
 
 public class Bomb implements Runnable {
+    private final int UPDATE_TIME = 25;
     public static final int WIDTH = 8;
     public static final int HEIGHT = 20;
     private static final String IMAGE_FILENAME = "src\\com\\basic\\resources\\Aviabomb.jpg";
     public static final int SPEED = 3;
+    private static int currentNumber = 0;
 
     private int x;
     private int y;
@@ -39,6 +41,7 @@ public class Bomb implements Runnable {
         direction = DOWN;
         speed = SPEED;
         isActive = true;
+        currentNumber++;
 
         BufferedImage bi = null;
         try {
@@ -63,7 +66,7 @@ public class Bomb implements Runnable {
     }
 
     public void startBombMove() {
-        Thread t = new Thread(this);
+        Thread t = new Thread(this, " Bomb: " + String.valueOf(currentNumber));
         t.start();
     }
 
@@ -72,7 +75,7 @@ public class Bomb implements Runnable {
         while (true) {
             move();
             try {
-                Thread.sleep(25);
+                Thread.sleep(UPDATE_TIME);
             } catch (InterruptedException e) {
                 break;
             }
