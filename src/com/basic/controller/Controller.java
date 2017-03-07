@@ -1,11 +1,12 @@
 package com.basic.controller;
 
-import com.basic.Alien;
-import com.basic.Game;
-import com.basic.View;
+import com.basic.*;
 import com.basic.model.Direction;
 import com.basic.model.GameObjects;
 import com.basic.model.Model;
+
+import java.util.HashSet;
+import java.util.Set;
 
 public class Controller implements EventListener
 {

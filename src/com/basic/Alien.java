@@ -81,8 +81,7 @@ public class Alien extends Observable implements Runnable{
                 setChanged();
                 notifyObservers();
                 bombQuantity--;
-                //bombFlushPeriod = (int) (Math.random() * UPDATE_TIME * 6 + 40);
-                bombFlushPeriod = 10;
+                bombFlushPeriod = (int) (Math.random() * UPDATE_TIME * 6 + 40);
             }
             move();
             try {

@@ -14,6 +14,8 @@ import java.awt.image.BufferStrategy;
 import java.awt.image.BufferedImage;
 import java.awt.image.DataBufferInt;
 import java.util.Arrays;
+import java.util.HashSet;
+import java.util.Set;
 
 public class View extends JPanel {
     public static final int BG_COLOR = Game.CLEAR_COLOR;
@@ -39,7 +41,7 @@ public class View extends JPanel {
         if (isCreated) return;
 
         window = new JFrame(title);
-        window.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+        window.setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
         content = new Canvas();
 
         Dimension size = new Dimension(width, height);
@@ -87,7 +89,7 @@ public class View extends JPanel {
     public void render() {
         clear();
 
-        GameObjects gameObjects = getGameObjects();
+        GameObjects gameObjects = controller.getGameObjects();
         if (gameObjects == null) return;
 
         for (Alien alien : gameObjects.getAliens()) {

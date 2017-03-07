@@ -2,48 +2,73 @@ package com.basic.model;
 
 import com.basic.*;
 
+import java.util.HashSet;
 import java.util.Set;
-import java.util.concurrent.CopyOnWriteArraySet;
 
-public class GameObjects
-{
+public class GameObjects {
     private Set<Alien> aliens;
     private Set<Bomb> bombs;
     private Set<Man> men;
     private Set<Rocket> rockets;
     private Launcher launcher;
 
-    public Set<Alien> getAliens()
-    {
-        return aliens;
+    public void setAliens(Set<Alien> aliens) {
+        this.aliens = aliens;
     }
 
-    public Set<Bomb> getBombs()
-    {
-        return bombs;
+    public void setBombs(Set<Bomb> bombs) {
+        this.bombs = bombs;
     }
 
-    public Set<Man> getMen()
-{
-    return men;
-}
-
-    public Set<Rocket> getRockets()
-    {
-        return rockets;
+    public void setMen(Set<Man> men) {
+        this.men = men;
     }
 
-    public Launcher getLauncher()
-    {
+    public void setRockets(Set<Rocket> rockets) {
+        this.rockets = rockets;
+    }
+
+    public void setLauncher(Launcher launcher) {
+        this.launcher = launcher;
+    }
+
+    public synchronized Set<Alien> getAliens() {
+        Set<Alien> aliensClone = new HashSet<>();
+        aliensClone.addAll(aliens);
+        return aliensClone;
+    }
+
+    public synchronized Set<Bomb> getBombs() {
+        Set<Bomb> bombsClone = new HashSet<>();
+        bombsClone.addAll(bombs);
+        return bombsClone;
+    }
+
+    public synchronized Set<Man> getMen() {
+        Set<Man> menClone = new HashSet<>();
+        menClone.addAll(men);
+        return menClone;
+    }
+
+    public synchronized Set<Rocket> getRockets() {
+        Set<Rocket> rocketsClone = new HashSet<>();
+        rocketsClone.addAll(rockets);
+        return rocketsClone;
+    }
+
+    public Launcher getLauncher() {
         return launcher;
     }
 
-    public GameObjects(Set<Alien> aliens, Set<Bomb> bombs, Set<Man> men, Set<Rocket> rockets, Launcher launcher)
-    {
+    public GameObjects(Set<Alien> aliens, Set<Bomb> bombs, Set<Man> men, Set<Rocket> rockets, Launcher launcher) {
         this.aliens = aliens;
         this.bombs = bombs;
         this.men = men;
         this.rockets = rockets;
         this.launcher = launcher;
+    }
+
+    public GameObjects getGameObjects() {
+        return this;
     }
 }

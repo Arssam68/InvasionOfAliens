@@ -2,26 +2,27 @@ package com.basic.model;
 
 import com.basic.*;
 //import com.basic.controller.Controller;
-import com.basic.controller.EventListener;
+//import com.basic.controller.EventListener;
 import com.basic.controller.Input;
 
 import java.util.*;
 
-public class Model implements Observer{
+public class Model implements Observer {
     //private Controller controller;
     private Input input;
 
     private GameObjects gameObjects;
-    private EventListener eventListener;
-    Set<Alien> aliens = new HashSet<>();
-    Set<Man> men = new HashSet<>();
-    Set<Bomb> bombs = new HashSet<>();
-    Set<Rocket> rockets = new HashSet<>();
-    Launcher launcher;
+    //private EventListener eventListener;
+    private Set<Alien> aliens = new HashSet<>();
+    private Set<Man> men = new HashSet<>();
+    private Set<Bomb> bombs = new HashSet<>();
+    private Set<Rocket> rockets = new HashSet<>();
+    private Launcher launcher;
 
     public Model(/*Controller controller*/) {
         //this.controller = controller;
         //input = controller.getInput();
+        gameObjects = new GameObjects(aliens, bombs, men, rockets,launcher);
 
         for (int i = 1; i <= Game.NUMBER_OF_ALIANS; i++) {
             Alien alien = new Alien((int) (Math.random() * (Game.WIDTH - Alien.WIDTH - 1) + Alien.WIDTH / 2), (int) (Math.random() * 2 + 1), i);
@@ -35,11 +36,13 @@ public class Model implements Observer{
 
         launcher = new Launcher((int) (Math.random() * (Game.WIDTH - Launcher.WIDTH - 1) + Launcher.WIDTH / 2));
 
-        gameObjects = new GameObjects(aliens, bombs, men, rockets, launcher);
+        gameObjects.setAliens(aliens);
+        gameObjects.setMen(men);
+        gameObjects.setLauncher(launcher);
     }
 
     public GameObjects getGameObjects() {
-        return gameObjects;
+        return gameObjects.getGameObjects();
     }
 
     public void removeInactiveObjects() {
@@ -58,7 +61,8 @@ public class Model implements Observer{
             if (!bombsIterator.next().isActive()) bombsIterator.remove();
         }
 
-        gameObjects = new GameObjects(aliens, bombs, men, rockets, launcher);
+        gameObjects.setRockets(rockets);
+        gameObjects.setBombs(bombs);
     }
 
     public void move(Direction direction) {
@@ -84,7 +88,7 @@ public class Model implements Observer{
             if (Rocket.getCurrentNumber() < Game.MAX_NUMBER_OF_ROCKETS) {
                 rockets.add(new Rocket(launcher.getX(), launcher.getY() - launcher.getHeight() / 2 - Rocket.HEIGHT / 2));
                 launcher.setReady(false);
-                gameObjects = new GameObjects(aliens, bombs, men, rockets, launcher);
+                gameObjects.setRockets(rockets);
             }
         } else {
             int launchInterval = launcher.getLaunchInterval();
@@ -116,11 +120,11 @@ public class Model implements Observer{
         aliens = gameObjects.getAliens();
 
         bombs.add(new Bomb(alien.getX(), alien.getY() + alien.getHeight() / 2 + Bomb.HEIGHT / 2));
-        gameObjects = new GameObjects(aliens, bombs, men, rockets, launcher);
+        gameObjects.setBombs(bombs);
     }
 
     @Override
-    public void update(Observable o, Object arg) {
+    public synchronized void update(Observable o, Object arg) {
         if (o instanceof Alien) {
             bombFlush((Alien) o);
         }
