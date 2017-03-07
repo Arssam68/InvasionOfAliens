@@ -22,7 +22,7 @@ public class Model implements Observer {
     public Model(/*Controller controller*/) {
         //this.controller = controller;
         //input = controller.getInput();
-        gameObjects = new GameObjects(aliens, bombs, men, rockets,launcher);
+        gameObjects = new GameObjects(aliens, bombs, men, rockets, launcher);
 
         for (int i = 1; i <= Game.NUMBER_OF_ALIANS; i++) {
             Alien alien = new Alien((int) (Math.random() * (Game.WIDTH - Alien.WIDTH - 1) + Alien.WIDTH / 2), (int) (Math.random() * 2 + 1), i);
@@ -60,9 +60,14 @@ public class Model implements Observer {
         while (bombsIterator.hasNext()) {
             if (!bombsIterator.next().isActive()) bombsIterator.remove();
         }
+        Iterator<Alien> aliensIterator = aliens.iterator();
+        while (aliensIterator.hasNext()) {
+            if (!aliensIterator.next().isActive()) aliensIterator.remove();
+        }
 
         gameObjects.setRockets(rockets);
         gameObjects.setBombs(bombs);
+        gameObjects.setAliens(aliens);
     }
 
     public void move(Direction direction) {
@@ -121,6 +126,22 @@ public class Model implements Observer {
 
         bombs.add(new Bomb(alien.getX(), alien.getY() + alien.getHeight() / 2 + Bomb.HEIGHT / 2));
         gameObjects.setBombs(bombs);
+    }
+
+    public void isCollision() {
+        GameObjects gameObjects = getGameObjects();
+        for (Rocket rocket : gameObjects.getRockets()) {
+            for (Alien alien : gameObjects.getAliens()) {
+                if (rocket.getLeftUpper().getY() <= alien.getY() + alien.getHeight() / 2 &&
+                        rocket.getLeftUpper().getX() + rocket.getWidth() >= alien.getLeftUpper().getX() &&
+                        rocket.getLeftUpper().getX() <= alien.getLeftUpper().getX() + alien.getWidth()) {
+                    alien.setActive(false);
+                    alien.getThread().interrupt();
+                    rocket.setActive(false);
+                    rocket.getThread().interrupt();
+                }
+            }
+        }
     }
 
     @Override

@@ -30,6 +30,8 @@ public class Alien extends Observable implements Runnable{
     private Direction direction;
     private int speed;
     private int bombQuantity;
+    private boolean isActive;
+    private Thread thread;
     private String imageFilename;
     private BufferedImage buffer;
     private int[] bufferData;
@@ -44,7 +46,9 @@ public class Alien extends Observable implements Runnable{
         direction = (int) (Math.random() * 10) < 5 ? LEFT : RIGHT;
         this.speed = speed;
         bombQuantity = BOMB_CAPACITY;
+        isActive = true;
         currentNumber++;
+        thread = new Thread(this, " Alien: " + String.valueOf(currentNumber));
 
         BufferedImage bi = null;
         try {
@@ -65,7 +69,19 @@ public class Alien extends Observable implements Runnable{
     }
 
     public void startAlienMove() {
-        new Thread(this, " Alien: " + String.valueOf(currentNumber)).start();
+        thread.start();
+    }
+
+    public boolean isActive() {
+        return isActive;
+    }
+
+    public Thread getThread() {
+        return thread;
+    }
+
+    public void setActive(boolean active) {
+        isActive = active;
     }
 
     @Override

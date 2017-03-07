@@ -71,6 +71,7 @@ public class Game implements Runnable {
     }
 
     private void render() {
+        controller.isCollision();
         controller.removeInactiveObjects();
         view.render();
     }

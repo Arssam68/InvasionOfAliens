@@ -5,9 +5,6 @@ import com.basic.model.Direction;
 import com.basic.model.GameObjects;
 import com.basic.model.Model;
 
-import java.util.HashSet;
-import java.util.Set;
-
 public class Controller implements EventListener
 {
     private View view;
@@ -57,5 +54,9 @@ public class Controller implements EventListener
 
     public void removeInactiveObjects() {
         model.removeInactiveObjects();
+    }
+
+    public void isCollision() {
+        model.isCollision();
     }
 }

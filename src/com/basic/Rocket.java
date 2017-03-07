@@ -28,13 +28,10 @@ public class Rocket implements Runnable {
     private Point leftUpper;
     private Direction direction;
     private int speed;
+    private Thread thread;
     private String imageFilename;
     private BufferedImage buffer;
     private int[] bufferData;
-
-    public boolean isActive() {
-        return isActive;
-    }
 
     public static int getCurrentNumber() {
         return currentNumber;
@@ -51,6 +48,7 @@ public class Rocket implements Runnable {
         speed = SPEED;
         isActive = true;
         currentNumber++;
+        thread = new Thread(this, " Rocket: " + String.valueOf(currentNumber));
 
         BufferedImage bi = null;
         try {
@@ -71,8 +69,19 @@ public class Rocket implements Runnable {
     }
 
     public void startRocketMove() {
-        Thread t = new Thread(this, " Rocket: " + String.valueOf(currentNumber));
-        t.start();
+        thread.start();
+    }
+
+    public boolean isActive() {
+        return isActive;
+    }
+
+    public void setActive(boolean active) {
+        isActive = active;
+    }
+
+    public Thread getThread() {
+        return thread;
     }
 
     @Override
