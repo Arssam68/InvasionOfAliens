@@ -26,6 +26,7 @@ public class Bomb implements Runnable {
     private int width;
     private int height;
     private boolean isActive;
+    private Thread thread;
     private Point leftUpper;
     private Direction direction;
     private int speed;
@@ -44,6 +45,7 @@ public class Bomb implements Runnable {
         speed = SPEED;
         isActive = true;
         currentNumber++;
+        thread = new Thread(this, "Bomb: " + String.valueOf(currentNumber));
 
         BufferedImage bi = null;
         try {
@@ -65,6 +67,14 @@ public class Bomb implements Runnable {
 
     public boolean isActive() {
         return isActive;
+    }
+
+    public void setActive(boolean active) {
+        isActive = active;
+    }
+
+    public Thread getThread() {
+        return thread;
     }
 
     public void startBombMove() {

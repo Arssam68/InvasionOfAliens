@@ -30,7 +30,6 @@ public class Game implements Runnable {
     public static final int MAX_NUMBER_OF_ALIANS = 20;
     public static final int NUMBER_OF_MEN = 5;
     public static final int MAX_NUMBER_OF_MEN = 20;
-    public static final int MAX_NUMBER_OF_ROCKETS = 100;
 
     public Game() {
         isRunning = false;

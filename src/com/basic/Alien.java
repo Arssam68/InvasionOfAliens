@@ -48,7 +48,7 @@ public class Alien extends Observable implements Runnable{
         bombQuantity = BOMB_CAPACITY;
         isActive = true;
         currentNumber++;
-        thread = new Thread(this, " Alien: " + String.valueOf(currentNumber));
+        thread = new Thread(this, "Alien: " + String.valueOf(currentNumber));
 
         BufferedImage bi = null;
         try {

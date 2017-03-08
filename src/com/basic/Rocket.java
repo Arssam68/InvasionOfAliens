@@ -33,10 +33,6 @@ public class Rocket implements Runnable {
     private BufferedImage buffer;
     private int[] bufferData;
 
-    public static int getCurrentNumber() {
-        return currentNumber;
-    }
-
     public Rocket(int x, int y) {
         this.x = x;
         this.y = y;
@@ -48,7 +44,7 @@ public class Rocket implements Runnable {
         speed = SPEED;
         isActive = true;
         currentNumber++;
-        thread = new Thread(this, " Rocket: " + String.valueOf(currentNumber));
+        thread = new Thread(this, "Rocket: " + String.valueOf(currentNumber));
 
         BufferedImage bi = null;
         try {

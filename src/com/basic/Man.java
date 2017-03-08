@@ -27,6 +27,8 @@ public class Man implements Runnable{
     private Point leftUpper;
     private Direction direction;
     private int speed;
+    private boolean isActive;
+    private Thread thread;
     private String imageLFilename;
     private BufferedImage bufferL;
     private int[] bufferLData;
@@ -44,7 +46,9 @@ public class Man implements Runnable{
         leftUpper = new Point(x - width / 2, y - height / 2);
         direction = (int) (Math.random() * 10) < 5 ? LEFT : RIGHT;
         this.speed = speed;
+        isActive = true;
         currentNumber++;
+        thread = new Thread(this, "Man: " + String.valueOf(currentNumber));
 
         BufferedImage bi = null;
         try {
@@ -125,6 +129,18 @@ public class Man implements Runnable{
     public int[] getBufferData() {
         int[] bufferData;
         return bufferData = direction == LEFT ? bufferLData : bufferRData;
+    }
+
+    public boolean isActive() {
+        return isActive;
+    }
+
+    public void setActive(boolean active) {
+        isActive = active;
+    }
+
+    public Thread getThread() {
+        return thread;
     }
 
     public int getX() {

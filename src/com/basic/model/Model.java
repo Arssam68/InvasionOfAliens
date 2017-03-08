@@ -64,10 +64,15 @@ public class Model implements Observer {
         while (aliensIterator.hasNext()) {
             if (!aliensIterator.next().isActive()) aliensIterator.remove();
         }
+        Iterator<Man> menIterator = men.iterator();
+        while (menIterator.hasNext()) {
+            if (!menIterator.next().isActive()) menIterator.remove();
+        }
 
         gameObjects.setRockets(rockets);
         gameObjects.setBombs(bombs);
         gameObjects.setAliens(aliens);
+        gameObjects.setMen(men);
     }
 
     public void move(Direction direction) {
@@ -90,8 +95,10 @@ public class Model implements Observer {
         launcher = gameObjects.getLauncher();
 
         if (launcher.isReady()) {
-            if (Rocket.getCurrentNumber() < Game.MAX_NUMBER_OF_ROCKETS) {
+            if (launcher.getRocketQuantity() > 0) {
                 rockets.add(new Rocket(launcher.getX(), launcher.getY() - launcher.getHeight() / 2 - Rocket.HEIGHT / 2));
+                int rq = launcher.getRocketQuantity() - 1;
+                launcher.setRocketQuantity(rq);
                 launcher.setReady(false);
                 gameObjects.setRockets(rockets);
             }
@@ -139,6 +146,37 @@ public class Model implements Observer {
                     alien.getThread().interrupt();
                     rocket.setActive(false);
                     rocket.getThread().interrupt();
+                }
+            }
+            for (Bomb bomb : gameObjects.getBombs()) {
+                if (rocket.getLeftUpper().getY() <= bomb.getY() + bomb.getHeight() / 2 &&
+                        rocket.getLeftUpper().getX() + rocket.getWidth() >= bomb.getLeftUpper().getX() &&
+                        rocket.getLeftUpper().getX() <= bomb.getLeftUpper().getX() + bomb.getWidth()) {
+                    bomb.setActive(false);
+                    bomb.getThread().interrupt();
+                    rocket.setActive(false);
+                    rocket.getThread().interrupt();
+                }
+            }
+        }
+        for (Bomb bomb : gameObjects.getBombs()) {
+            if (bomb.getLeftUpper().getY() + bomb.getHeight() >= launcher.getY() - launcher.getHeight() / 2 &&
+                    bomb.getLeftUpper().getX() + bomb.getWidth() >= launcher.getLeftUpper().getX() &&
+                    bomb.getLeftUpper().getX() <= launcher.getLeftUpper().getX() + launcher.getWidth()) {
+                bomb.setActive(false);
+                bomb.getThread().interrupt();
+                int rq = launcher.getRocketQuantity() - Launcher.LOST_ROCKETS;
+                if (rq < 0) launcher.setRocketQuantity(0);
+                else launcher.setRocketQuantity(rq);
+            }
+            for (Man man : gameObjects.getMen()) {
+                if (bomb.getLeftUpper().getY() + bomb.getHeight() >= man.getY() - man.getHeight() / 2 &&
+                        bomb.getLeftUpper().getX() + bomb.getWidth() >= man.getLeftUpper().getX() &&
+                        bomb.getLeftUpper().getX() <= man.getLeftUpper().getX() + man.getWidth()) {
+                    man.setActive(false);
+                    man.getThread().interrupt();
+                    bomb.setActive(false);
+                    bomb.getThread().interrupt();
                 }
             }
         }

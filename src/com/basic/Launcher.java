@@ -15,12 +15,13 @@ import static com.basic.model.Direction.LEFT;
 import static com.basic.model.Direction.RIGHT;
 
 public class Launcher implements Movable, EventListener {
-    private final int MAX_ROCKET_CAPACITY = 1000;
+    private final int MAX_ROCKET_CAPACITY = 100;
     public static final int WIDTH = 80;
     private static final int HEIGHT = 10;
     private static final String IMAGE_FILENAME = "src\\com\\basic\\resources\\Launcher.jpg";
     private static final int SPEED = 6;
     public static int LAUNCH_INTERVAL = (int) Game.UPDATE_RATE;
+    public static final int LOST_ROCKETS = 10;
 
     private int x;
     private int y;
@@ -127,5 +128,13 @@ public class Launcher implements Movable, EventListener {
 
     public void setLaunchInterval(int launchInterval) {
         this.launchInterval = launchInterval;
+    }
+
+    public int getRocketQuantity() {
+        return rocketQuantity;
+    }
+
+    public void setRocketQuantity(int rocketQuantity) {
+        this.rocketQuantity = rocketQuantity;
     }
 }
