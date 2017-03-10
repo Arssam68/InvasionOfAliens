@@ -3,12 +3,38 @@ package com.basic;
 import com.basic.controller.Controller;
 import com.basic.controller.Input;
 import com.basic.model.Direction;
+import com.basic.model.GameObjects;
+import com.basic.model.Model;
 import com.basic.utils.Time;
 
 import java.awt.*;
 import java.awt.event.KeyEvent;
+import java.util.HashSet;
+import java.util.Set;
 
 public class Game implements Runnable {
+    public static void main(String[] args) {
+        Game game = new Game();
+        Controller controller = game.getController();
+        game.start();
+        while (true) {
+            try {
+                game.getGameThread().join();
+            } catch (InterruptedException e) {
+                e.printStackTrace();
+            }
+            GameObjects gameObjects = controller.getGameObjects();
+            Set<Alien> aliens = new HashSet<>();
+            Set<Man> men = new HashSet<>();
+            aliens = gameObjects.getAliens();
+            men = gameObjects.getMen();
+            if (aliens.size() == 0 && men.size() != 0) controller.gameWon();
+            else if (aliens.size() != 0 && men.size() == 0) controller.gameLost();
+            //else controller.gameDraw();
+            game.start();
+        }
+    }
+
     public static final int WIDTH = 1024;
     public static final int HEIGHT = 768;
     public static final String TITLE = "Вторжение инопланетян";
@@ -18,6 +44,7 @@ public class Game implements Runnable {
     private Controller controller;
     private View view;
     private Input input;
+    private Model model;
 
     public static final float UPDATE_RATE = 60.0f;
     public static final float UPDATE_INTERVAL = Time.SECOND / UPDATE_RATE;
@@ -33,12 +60,21 @@ public class Game implements Runnable {
 
     public Game() {
         isRunning = false;
-        controller = new Controller();
+        controller = new Controller(this);
         view = controller.getView();
         input = controller.getInput();
+        model = controller.getModel();
     }
 
-    public synchronized void start() {
+    public Controller getController() {
+        return controller;
+    }
+
+    public boolean isRunning() {
+        return isRunning;
+    }
+
+    public void start() {
         if (!isRunning) {
             isRunning = true;
             gameThread = new Thread(this, "Game thread");
@@ -46,15 +82,14 @@ public class Game implements Runnable {
         }
     }
 
-    public synchronized void stop() {
-        if (!isRunning) {
+    public void stop() {
+        if (isRunning) {
             isRunning = false;
-            try {
-                gameThread.join();
-            } catch (InterruptedException e) {
-                e.printStackTrace();
-            }
         }
+    }
+
+    public Thread getGameThread() {
+        return gameThread;
     }
 
     private void update() {
@@ -67,11 +102,15 @@ public class Game implements Runnable {
         if (input.getKey(KeyEvent.VK_RIGHT)) {
             controller.move(Direction.RIGHT);
         }
+        if (input.getKey(KeyEvent.VK_R)) {
+            controller.restart();
+        }
     }
 
     private void render() {
         controller.isCollision();
         controller.removeInactiveObjects();
+        model.checkCompletion();
         view.render();
     }
 

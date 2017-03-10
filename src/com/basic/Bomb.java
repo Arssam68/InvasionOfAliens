@@ -134,4 +134,12 @@ public class Bomb implements Runnable {
     public Point getLeftUpper() {
         return leftUpper;
     }
+
+    public static int getCurrentNumber() {
+        return currentNumber;
+    }
+
+    public static void setCurrentNumber(int currentNumber) {
+        Bomb.currentNumber = currentNumber;
+    }
 }

@@ -98,8 +98,11 @@ public class Alien extends Observable implements Runnable{
             if (bombFlushPeriod-- == 0 && bombQuantity != 0) {
                 setChanged();
                 notifyObservers();
-                bombQuantity--;
+                if (--bombQuantity != 0)
                 bombFlushPeriod = (int) (Math.random() * UPDATE_TIME * 6 + 40);
+                else {
+                    isActive = false;
+                }
             }
             move();
             try {
@@ -163,5 +166,9 @@ public class Alien extends Observable implements Runnable{
 
     public static int getCurrentNumber() {
         return currentNumber;
+    }
+
+    public static void setCurrentNumber(int currentNumber) {
+        Alien.currentNumber = currentNumber;
     }
 }

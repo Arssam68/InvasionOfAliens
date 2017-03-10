@@ -145,4 +145,16 @@ public class View extends JPanel {
     public void addInputListener(Input inputListener) {
         window.add(inputListener);
     }
+
+    public void gameWon() {
+        JOptionPane.showMessageDialog(this, "Земляне победили! :-)");
+    }
+
+    public void gameLost() {
+        JOptionPane.showMessageDialog(this, "Инопланетяне победили :-(");
+    }
+
+    public void gameDraw() {
+        JOptionPane.showMessageDialog(this, "Боевая ничья :-|");
+    }
 }

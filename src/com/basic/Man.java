@@ -178,4 +178,8 @@ public class Man implements Runnable {
     public static int getCurrentNumber() {
         return currentNumber;
     }
+
+    public static void setCurrentNumber(int currentNumber) {
+        Man.currentNumber = currentNumber;
+    }
 }

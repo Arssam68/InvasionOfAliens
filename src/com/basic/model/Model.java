@@ -1,12 +1,14 @@
 package com.basic.model;
 
 import com.basic.*;
+import com.basic.controller.Controller;
 import com.basic.controller.Input;
 
 import java.util.*;
 
 public class Model implements Observer {
     private Input input;
+    private Controller controller;
     private GameObjects gameObjects;
     private Set<Alien> aliens = new HashSet<>();
     private Set<Man> men = new HashSet<>();
@@ -14,8 +16,13 @@ public class Model implements Observer {
     private Set<Rocket> rockets = new HashSet<>();
     private Launcher launcher;
 
-    public Model() {
+    public Model(Controller controller) {
+        this.controller = controller;
         gameObjects = new GameObjects(aliens, bombs, men, rockets, launcher);
+        Alien.setCurrentNumber(0);
+        Man.setCurrentNumber(0);
+        Rocket.setCurrentNumber(0);
+        Bomb.setCurrentNumber(0);
 
         for (int i = 1; i <= Game.MAX_NUMBER_OF_ALIANS; i++) {
             Alien alien = new Alien((int) (Math.random() * (Game.WIDTH - Alien.WIDTH - 1) + Alien.WIDTH / 2), (int) (Math.random() * 2 + 1), i);
@@ -205,5 +212,15 @@ public class Model implements Observer {
         if (o instanceof Alien) {
             bombFlush((Alien) o);
         }
+    }
+
+    public void checkCompletion() {
+        GameObjects gameObjects = getGameObjects();
+        aliens = gameObjects.getAliens();
+        men = gameObjects.getMen();
+        if (aliens.size() == 0 || men.size() == 0) controller.getGame().stop();
+        //if (aliens.size() == 0 && men.size() != 0) controller.gameWon();
+        //else if (aliens.size() != 0 && men.size() == 0) controller.gameLost();
+        //else controller.gameDraw();
     }
 }

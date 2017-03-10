@@ -136,4 +136,8 @@ public class Rocket implements Runnable {
     public static int getCurrentNumber() {
         return currentNumber;
     }
+
+    public static void setCurrentNumber(int currentNumber) {
+        Rocket.currentNumber = currentNumber;
+    }
 }
