@@ -26,6 +26,7 @@ public class Alien extends Observable implements Runnable{
     private int y;
     private int width;
     private int height;
+    private int alt;
     private Point leftUpper;
     private Direction direction;
     private int speed;
@@ -39,6 +40,7 @@ public class Alien extends Observable implements Runnable{
     public Alien(int x, int speed, int alt) {
         width = WIDTH;
         height = HEIGHT;
+        this.alt = alt;
         this.x = x;
         y = ALTITUDE * 2 * alt - height / 2;
         imageFilename = IMAGE_FILENAME;
@@ -153,5 +155,13 @@ public class Alien extends Observable implements Runnable{
 
     public Point getLeftUpper() {
         return leftUpper;
+    }
+
+    public int getAlt() {
+        return alt;
+    }
+
+    public static int getCurrentNumber() {
+        return currentNumber;
     }
 }

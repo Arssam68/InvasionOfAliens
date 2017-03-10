@@ -132,4 +132,8 @@ public class Rocket implements Runnable {
     public Point getLeftUpper() {
         return leftUpper;
     }
+
+    public static int getCurrentNumber() {
+        return currentNumber;
+    }
 }

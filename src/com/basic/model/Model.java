@@ -1,36 +1,29 @@
 package com.basic.model;
 
 import com.basic.*;
-//import com.basic.controller.Controller;
-//import com.basic.controller.EventListener;
 import com.basic.controller.Input;
 
 import java.util.*;
 
 public class Model implements Observer {
-    //private Controller controller;
     private Input input;
-
     private GameObjects gameObjects;
-    //private EventListener eventListener;
     private Set<Alien> aliens = new HashSet<>();
     private Set<Man> men = new HashSet<>();
     private Set<Bomb> bombs = new HashSet<>();
     private Set<Rocket> rockets = new HashSet<>();
     private Launcher launcher;
 
-    public Model(/*Controller controller*/) {
-        //this.controller = controller;
-        //input = controller.getInput();
+    public Model() {
         gameObjects = new GameObjects(aliens, bombs, men, rockets, launcher);
 
-        for (int i = 1; i <= Game.NUMBER_OF_ALIANS; i++) {
+        for (int i = 1; i <= Game.MAX_NUMBER_OF_ALIANS; i++) {
             Alien alien = new Alien((int) (Math.random() * (Game.WIDTH - Alien.WIDTH - 1) + Alien.WIDTH / 2), (int) (Math.random() * 2 + 1), i);
             alien.addObserver(this);
             aliens.add(alien);
         }
 
-        for (int i = 1; i <= Game.NUMBER_OF_MEN; i++) {
+        for (int i = 1; i <= Game.MAX_NUMBER_OF_MEN; i++) {
             men.add(new Man((int) (Math.random() * (Game.WIDTH - Man.WIDTH - 1) + Man.WIDTH / 2), (int) (Math.random() * 2 + 1)));
         }
 
@@ -56,17 +49,42 @@ public class Model implements Observer {
         while (rocketsIterator.hasNext()) {
             if (!rocketsIterator.next().isActive()) rocketsIterator.remove();
         }
+
         Iterator<Bomb> bombsIterator = bombs.iterator();
         while (bombsIterator.hasNext()) {
             if (!bombsIterator.next().isActive()) bombsIterator.remove();
         }
+
         Iterator<Alien> aliensIterator = aliens.iterator();
         while (aliensIterator.hasNext()) {
             if (!aliensIterator.next().isActive()) aliensIterator.remove();
         }
+        while (aliens.size() < Game.MAX_NUMBER_OF_ALIANS) {
+            if (Alien.getCurrentNumber() <= Game.TOTAL_NUMBER_OF_ALIANS) {
+                int i = 0;
+                List<Integer> alienAlt = new ArrayList<>();
+                for (Alien alienItem : aliens) {
+                    alienAlt.add(alienItem.getAlt());
+                }
+                if (!alienAlt.contains(1)) i = 1;
+                else if (!alienAlt.contains(2)) i = 2;
+                else if (!alienAlt.contains(3)) i = 3;
+                else if (!alienAlt.contains(4)) i = 4;
+                else i = 5;
+                Alien alien = new Alien((int) (Math.random() * (Game.WIDTH - Alien.WIDTH - 1) + Alien.WIDTH / 2), (int) (Math.random() * 2 + 1), i);
+                alien.addObserver(this);
+                aliens.add(alien);
+            } else break;
+        }
+
         Iterator<Man> menIterator = men.iterator();
         while (menIterator.hasNext()) {
             if (!menIterator.next().isActive()) menIterator.remove();
+        }
+        while (men.size() < Game.MAX_NUMBER_OF_MEN) {
+            if (Man.getCurrentNumber() <= Game.TOTAL_NUMBER_OF_MEN) {
+                men.add(new Man((int) (Math.random() * (Game.WIDTH - Man.WIDTH - 1) + Man.WIDTH / 2), (int) (Math.random() * 2 + 1)));
+            } else break;
         }
 
         gameObjects.setRockets(rockets);

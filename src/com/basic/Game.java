@@ -26,10 +26,10 @@ public class Game implements Runnable {
     private boolean isRunning;
     private Thread gameThread;
 
-    public static final int NUMBER_OF_ALIANS = 5;
-    public static final int MAX_NUMBER_OF_ALIANS = 20;
-    public static final int NUMBER_OF_MEN = 5;
-    public static final int MAX_NUMBER_OF_MEN = 20;
+    public static final int MAX_NUMBER_OF_ALIANS = 5;
+    public static final int TOTAL_NUMBER_OF_ALIANS = 20;
+    public static final int MAX_NUMBER_OF_MEN = 5;
+    public static final int TOTAL_NUMBER_OF_MEN = 20;
 
     public Game() {
         isRunning = false;

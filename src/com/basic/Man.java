@@ -6,13 +6,14 @@ import javax.imageio.ImageIO;
 import java.awt.*;
 import java.awt.image.BufferedImage;
 import java.awt.image.DataBufferInt;
+import java.awt.image.WritableRaster;
 import java.io.File;
 import java.io.IOException;
 
 import static com.basic.model.Direction.LEFT;
 import static com.basic.model.Direction.RIGHT;
 
-public class Man implements Runnable{
+public class Man implements Runnable {
     private final int UPDATE_TIME = 25;
     public static final int WIDTH = 20;
     public static final int HEIGHT = 40;
@@ -50,32 +51,43 @@ public class Man implements Runnable{
         currentNumber++;
         thread = new Thread(this, "Man: " + String.valueOf(currentNumber));
 
-        BufferedImage bi = null;
+        BufferedImage bi = new BufferedImage(width, height, BufferedImage.TYPE_INT_ARGB);
         try {
             bi = ImageIO.read(new File(imageLFilename));
         } catch (IOException e) {
             System.out.println(String.format("Файл %s не найден", imageLFilename));
         }
         bufferL = new BufferedImage(width, height, BufferedImage.TYPE_INT_ARGB);
-        for (int i = 0; i < width; i++) {
-            for (int j = 0; j < height; j++) {
-                int a = bi.getRGB(i, j);
-                bufferL.setRGB(i, j, a);
-            }
-        }
+        int[] pixels = new int[width * height];
+        bi.getRGB(0, 0, width, height, pixels, 0, width);
+        /*for (int i = 0; i < pixels.length; i++) {
+            if ((pixels[i] & 0xffffffff) == Game.CLEAR_COLOR)
+                pixels[i] &= 0xffffff;
+        }*/
+        WritableRaster raster = bufferL.getRaster();
+
+        raster.setDataElements(0, 0, width, height, pixels);
+        bufferL.setData(raster);
+
         bufferLData = ((DataBufferInt) bufferL.getRaster().getDataBuffer()).getData();
+
+        bi = new BufferedImage(width, height, BufferedImage.TYPE_INT_ARGB);
         try {
             bi = ImageIO.read(new File(imageRFilename));
         } catch (IOException e) {
             System.out.println(String.format("Файл %s не найден", imageRFilename));
         }
         bufferR = new BufferedImage(width, height, BufferedImage.TYPE_INT_ARGB);
-        for (int i = 0; i < width; i++) {
-            for (int j = 0; j < height; j++) {
-                int a = bi.getRGB(i, j);
-                bufferR.setRGB(i, j, a);
-            }
-        }
+        bi.getRGB(0, 0, width, height, pixels, 0, width);
+        /*for (int i = 0; i < pixels.length; i++) {
+            if ((pixels[i] & 0xffffffff) == Game.CLEAR_COLOR)
+                pixels[i] &= 0xffffff;
+        }*/
+        raster = bufferR.getRaster();
+
+        raster.setDataElements(0, 0, width, height, pixels);
+        bufferR.setData(raster);
+
         bufferRData = ((DataBufferInt) bufferR.getRaster().getDataBuffer()).getData();
 
         startManMove();
@@ -161,5 +173,9 @@ public class Man implements Runnable{
 
     public Point getLeftUpper() {
         return leftUpper;
+    }
+
+    public static int getCurrentNumber() {
+        return currentNumber;
     }
 }

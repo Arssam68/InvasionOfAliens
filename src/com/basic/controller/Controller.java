@@ -5,6 +5,8 @@ import com.basic.model.Direction;
 import com.basic.model.GameObjects;
 import com.basic.model.Model;
 
+import java.awt.*;
+
 public class Controller implements EventListener
 {
     private View view;
@@ -13,8 +15,14 @@ public class Controller implements EventListener
 
     public Controller()
     {
+        Toolkit kit = Toolkit.getDefaultToolkit();
+        Dimension screenSize = kit.getScreenSize();
+        int screenWidth = screenSize.width;
+        int screenHeight = screenSize.height;
+
         view = new View(this);
         view.create(Game.WIDTH, Game.HEIGHT, Game.TITLE, Game.CLEAR_COLOR, Game.NUM_BUFFERS);
+        //view.create(screenWidth, screenHeight, Game.TITLE, Game.CLEAR_COLOR, Game.NUM_BUFFERS);
         model = new Model();
         input = new Input();
         view.addInputListener(input);

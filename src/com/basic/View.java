@@ -49,11 +49,14 @@ public class View extends JPanel {
 
         window.setResizable(false);
         window.getContentPane().add(content);
+        //JLabel fpsLable = new JLabel("Test");
+        //fpsLable.setLocation(0, 768);
+        //window.getContentPane().add(fpsLable);
         window.pack();
         window.setLocationRelativeTo(null);
         window.setVisible(true);
 
-        buffer = new BufferedImage(width, height, BufferedImage.TYPE_INT_RGB);
+        buffer = new BufferedImage(width, height, BufferedImage.TYPE_INT_ARGB);
         bufferData = ((DataBufferInt) buffer.getRaster().getDataBuffer()).getData();
         bufferGrafics = buffer.getGraphics();
         ((Graphics2D) buffer.getGraphics()).setRenderingHint(RenderingHints.KEY_ANTIALIASING, RenderingHints.VALUE_ANTIALIAS_ON);
