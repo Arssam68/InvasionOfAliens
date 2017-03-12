@@ -15,7 +15,7 @@ public class Launcher implements Movable, EventListener {
     private final int MAX_ROCKET_CAPACITY = 100;
     public static final int WIDTH = 80;
     private static final int HEIGHT = 10;
-    private static final String IMAGE_FILENAME = "d:/Java/Projects/InvasionOfAliens/src/main/resources/Launcher.jpg";
+    private static final String IMAGE_FILENAME = "/Launcher.jpg";
     private static final int SPEED = 6;
     public static int LAUNCH_INTERVAL = (int) Game.UPDATE_RATE;
     public static final int LOST_ROCKETS = 10;
@@ -29,7 +29,6 @@ public class Launcher implements Movable, EventListener {
     private Direction direction;
     private int speed;
     private int rocketQuantity;
-    private String imageFilename;
     private BufferedImage buffer;
     private int[] bufferData;
     private int launchInterval;
@@ -40,7 +39,6 @@ public class Launcher implements Movable, EventListener {
         this.x = x;
         y = Game.HEIGHT - Man.HEIGHT - height;
         isReady = true;
-        imageFilename = IMAGE_FILENAME;
         leftUpper = new Point(x - width / 2, y - height / 2);
         direction = (int) (Math.random() * 10) < 5 ? Direction.LEFT : Direction.RIGHT;
         speed = SPEED;
@@ -49,9 +47,9 @@ public class Launcher implements Movable, EventListener {
 
         BufferedImage bi = null;
         try {
-            bi = ImageIO.read(new File(imageFilename));
+            bi = ImageIO.read(getClass().getResource(IMAGE_FILENAME));
         } catch (IOException e) {
-            System.out.println(String.format("Файл %s не найден", imageFilename));
+            System.out.println(String.format("Файл %s не найден", IMAGE_FILENAME));
         }
         buffer = new BufferedImage(width, height, BufferedImage.TYPE_INT_ARGB);
         for (int i = 0; i < width; i++) {

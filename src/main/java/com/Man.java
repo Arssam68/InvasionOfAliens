@@ -17,8 +17,8 @@ public class Man implements Runnable {
     private final int UPDATE_TIME = 25;
     public static final int WIDTH = 20;
     public static final int HEIGHT = 40;
-    private static final String IMAGE_L_FILENAME = "d:/Java/Projects/InvasionOfAliens/src/main/resources/WalkingManL.jpg";
-    private static final String IMAGE_R_FILENAME = "d:/Java/Projects/InvasionOfAliens/src/main/resources/WalkingManR.jpg";
+    private static final String IMAGE_L_FILENAME = "/WalkingManL.jpg";
+    private static final String IMAGE_R_FILENAME = "/WalkingManR.jpg";
     private static int currentNumber = 0;
 
     private int x;
@@ -30,10 +30,8 @@ public class Man implements Runnable {
     private int speed;
     private boolean isActive;
     private Thread thread;
-    private String imageLFilename;
     private BufferedImage bufferL;
     private int[] bufferLData;
-    private String imageRFilename;
     private BufferedImage bufferR;
     private int[] bufferRData;
 
@@ -42,8 +40,6 @@ public class Man implements Runnable {
         height = HEIGHT;
         this.x = x;
         y = Game.HEIGHT - height / 2;
-        imageLFilename = IMAGE_L_FILENAME;
-        imageRFilename = IMAGE_R_FILENAME;
         leftUpper = new Point(x - width / 2, y - height / 2);
         direction = (int) (Math.random() * 10) < 5 ? LEFT : RIGHT;
         this.speed = speed;
@@ -53,9 +49,9 @@ public class Man implements Runnable {
 
         BufferedImage bi = new BufferedImage(width, height, BufferedImage.TYPE_INT_ARGB);
         try {
-            bi = ImageIO.read(new File(imageLFilename));
+            bi = ImageIO.read(getClass().getResource(IMAGE_L_FILENAME));
         } catch (IOException e) {
-            System.out.println(String.format("Файл %s не найден", imageLFilename));
+            System.out.println(String.format("Файл %s не найден", IMAGE_L_FILENAME));
         }
         bufferL = new BufferedImage(width, height, BufferedImage.TYPE_INT_ARGB);
         int[] pixels = new int[width * height];
@@ -73,16 +69,12 @@ public class Man implements Runnable {
 
         bi = new BufferedImage(width, height, BufferedImage.TYPE_INT_ARGB);
         try {
-            bi = ImageIO.read(new File(imageRFilename));
+            bi = ImageIO.read(getClass().getResource(IMAGE_R_FILENAME));
         } catch (IOException e) {
-            System.out.println(String.format("Файл %s не найден", imageRFilename));
+            System.out.println(String.format("Файл %s не найден", IMAGE_R_FILENAME));
         }
         bufferR = new BufferedImage(width, height, BufferedImage.TYPE_INT_ARGB);
         bi.getRGB(0, 0, width, height, pixels, 0, width);
-        /*for (int i = 0; i < pixels.length; i++) {
-            if ((pixels[i] & 0xffffffff) == Game.CLEAR_COLOR)
-                pixels[i] &= 0xffffff;
-        }*/
         raster = bufferR.getRaster();
 
         raster.setDataElements(0, 0, width, height, pixels);

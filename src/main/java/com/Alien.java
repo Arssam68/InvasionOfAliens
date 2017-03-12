@@ -6,8 +6,9 @@ import javax.imageio.ImageIO;
 import java.awt.*;
 import java.awt.image.BufferedImage;
 import java.awt.image.DataBufferInt;
-import java.io.File;
-import java.io.IOException;
+import java.io.*;
+import java.nio.file.Path;
+import java.nio.file.Paths;
 import java.util.Observable;
 
 import static com.model.Direction.LEFT;
@@ -19,7 +20,7 @@ public class Alien extends Observable implements Runnable{
     public static final int WIDTH = 70;
     private static final int HEIGHT = 20;
     private static final int ALTITUDE = HEIGHT / 2;
-    private static final String IMAGE_FILENAME = "d:/Java/Projects/InvasionOfAliens/src/main/resources/ufo-spaceship-flying-saucer.jpg";
+    private static final String IMAGE_FILENAME = "/Alien.jpg";
     private static int currentNumber = 0;
 
     private int x;
@@ -33,7 +34,6 @@ public class Alien extends Observable implements Runnable{
     private int bombQuantity;
     private boolean isActive;
     private Thread thread;
-    private String imageFilename;
     private BufferedImage buffer;
     private int[] bufferData;
 
@@ -43,7 +43,6 @@ public class Alien extends Observable implements Runnable{
         this.alt = alt;
         this.x = x;
         y = ALTITUDE * 2 * alt - height / 2;
-        imageFilename = IMAGE_FILENAME;
         leftUpper = new Point(x - width / 2, y - height / 2);
         direction = (int) (Math.random() * 10) < 5 ? LEFT : RIGHT;
         this.speed = speed;
@@ -54,9 +53,9 @@ public class Alien extends Observable implements Runnable{
 
         BufferedImage bi = null;
         try {
-            bi = ImageIO.read(new File(imageFilename));
+            bi = ImageIO.read(getClass().getResource(IMAGE_FILENAME));
         } catch (IOException e) {
-            System.out.println(String.format("Файл %s не найден", imageFilename));
+            System.out.println(String.format("Файл %s не найден", IMAGE_FILENAME));
         }
         buffer = new BufferedImage(width, height, BufferedImage.TYPE_INT_ARGB);
         for (int i = 0; i < width; i++) {

@@ -13,7 +13,7 @@ public class Bomb implements Runnable {
     private final int UPDATE_TIME = 25;
     public static final int WIDTH = 8;
     public static final int HEIGHT = 20;
-    private static final String IMAGE_FILENAME = "d:/Java/Projects/InvasionOfAliens/src/main/resources/Aviabomb.jpg";
+    private static final String IMAGE_FILENAME = "/Aviabomb.jpg";
     public static final int SPEED = 3;
     private static int currentNumber = 0;
 
@@ -26,7 +26,6 @@ public class Bomb implements Runnable {
     private Point leftUpper;
     private Direction direction;
     private int speed;
-    private String imageFilename;
     private BufferedImage buffer;
     private int[] bufferData;
 
@@ -35,7 +34,6 @@ public class Bomb implements Runnable {
         this.y = y;
         width = WIDTH;
         height = HEIGHT;
-        imageFilename = IMAGE_FILENAME;
         leftUpper = new Point(x - width / 2, y - height / 2);
         direction = Direction.DOWN;
         speed = SPEED;
@@ -45,9 +43,9 @@ public class Bomb implements Runnable {
 
         BufferedImage bi = null;
         try {
-            bi = ImageIO.read(new File(imageFilename));
+            bi = ImageIO.read(getClass().getResource(IMAGE_FILENAME));
         } catch (IOException e) {
-            System.out.println(String.format("Файл %s не найден", imageFilename));
+            System.out.println(String.format("Файл %s не найден", IMAGE_FILENAME));
         }
         buffer = new BufferedImage(width, height, BufferedImage.TYPE_INT_ARGB);
         for (int i = 0; i < width; i++) {

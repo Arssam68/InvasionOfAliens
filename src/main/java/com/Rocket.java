@@ -13,7 +13,7 @@ public class Rocket implements Runnable {
     private final int UPDATE_TIME = 25;
     public static final int WIDTH = 10;
     public static final int HEIGHT = 30;
-    private static final String IMAGE_FILENAME = "d:/Java/Projects/InvasionOfAliens/src/main/resources/Rocket.jpg";
+    private static final String IMAGE_FILENAME = "/Rocket.jpg";
     public static final int SPEED = 5;
     private static int currentNumber = 0;
 
@@ -26,7 +26,6 @@ public class Rocket implements Runnable {
     private Direction direction;
     private int speed;
     private Thread thread;
-    private String imageFilename;
     private BufferedImage buffer;
     private int[] bufferData;
 
@@ -35,7 +34,6 @@ public class Rocket implements Runnable {
         this.y = y;
         width = WIDTH;
         height = HEIGHT;
-        imageFilename = IMAGE_FILENAME;
         leftUpper = new Point(x - width / 2, y - height / 2);
         direction = Direction.UP;
         speed = SPEED;
@@ -45,9 +43,9 @@ public class Rocket implements Runnable {
 
         BufferedImage bi = null;
         try {
-            bi = ImageIO.read(new File(imageFilename));
+            bi = ImageIO.read(getClass().getResource(IMAGE_FILENAME));
         } catch (IOException e) {
-            System.out.println(String.format("Файл %s не найден", imageFilename));
+            System.out.println(String.format("Файл %s не найден", IMAGE_FILENAME));
         }
         buffer = new BufferedImage(width, height, BufferedImage.TYPE_INT_ARGB);
         for (int i = 0; i < width; i++) {
