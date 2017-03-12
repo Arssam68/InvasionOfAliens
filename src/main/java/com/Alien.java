@@ -7,8 +7,6 @@ import java.awt.*;
 import java.awt.image.BufferedImage;
 import java.awt.image.DataBufferInt;
 import java.io.*;
-import java.nio.file.Path;
-import java.nio.file.Paths;
 import java.util.Observable;
 
 import static com.model.Direction.LEFT;

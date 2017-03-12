@@ -36,7 +36,7 @@ public class Game implements Runnable {
     }
 
     public static final int WIDTH = 1024;
-    public static final int HEIGHT = 768;
+    public static final int HEIGHT = 600;
     public static final String TITLE = "Вторжение инопланетян";
     public static final int CLEAR_COLOR = Color.white.getRGB();
     public static final int NUM_BUFFERS = 3;

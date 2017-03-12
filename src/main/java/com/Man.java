@@ -7,7 +7,6 @@ import java.awt.*;
 import java.awt.image.BufferedImage;
 import java.awt.image.DataBufferInt;
 import java.awt.image.WritableRaster;
-import java.io.File;
 import java.io.IOException;
 
 import static com.model.Direction.LEFT;
